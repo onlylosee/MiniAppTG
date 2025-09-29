@@ -1,3 +1,5 @@
+const API_BASE_URL = window.location.origin + '/api';
+
 // Telegram WebApp initialization
 let tg = window.Telegram.WebApp;
 tg.expand();
@@ -432,3 +434,4 @@ function closeModal() {
     document.body.style.overflow = 'auto';
     tg.BackButton.hide();
 }
+
