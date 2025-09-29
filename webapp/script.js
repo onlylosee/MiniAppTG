@@ -1,4 +1,4 @@
-const API_BASE_URL = window.location.origin + '/api';
+const API_BASE_URL = "https://bd999ead-47a7-42bf-8087-96c0e80a9321.tunnel4.com";
 
 // Telegram WebApp initialization
 let tg = window.Telegram.WebApp;
@@ -452,3 +452,4 @@ function closeModal() {
     document.body.style.overflow = 'auto';
     tg.BackButton.hide();
 }
+
