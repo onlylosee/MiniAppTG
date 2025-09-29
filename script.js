@@ -321,26 +321,44 @@ function shareLink() {
 
 async function loadUserData() {
     showLoading();
-
+    
     try {
-        // Simulate loading user data
-        await simulateApiCall();
-
-        // Mock data - replace with actual API call
+        if (!userData.userId) {
+            hideLoading();
+            return;
+        }
+        
+        const response = await fetch(`${API_BASE_URL}/user/${userData.userId}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            userData = {
+                ...userData,
+                balance: result.data.balance,
+                deposits: result.data.deposits,
+                referrals: result.data.referrals
+            };
+            
+            updateUI();
+        } else {
+            throw new Error(result.error);
+        }
+        
+    } catch (error) {
+        console.error('Ошибка загрузки:', error);
+        // Показываем нулевые данные при ошибке
         userData = {
             ...userData,
-            balance: 1250.50,
-            deposits: [
-                { amount: 1000, startDate: '2025-09-20T10:00:00Z', profit: 120.50 },
-                { amount: 500, startDate: '2025-09-25T15:30:00Z', profit: 45.20 }
-            ],
-            referrals: { level1: 5, level2: 12, level3: 3 }
+            balance: 0,
+            deposits: [],
+            referrals: { level1: 0, level2: 0, level3: 0 }
         };
-
         updateUI();
-
-    } catch (error) {
-        showToast('Ошибка загрузки данных', 'error');
     } finally {
         hideLoading();
     }
@@ -434,4 +452,5 @@ function closeModal() {
     document.body.style.overflow = 'auto';
     tg.BackButton.hide();
 }
+
 
